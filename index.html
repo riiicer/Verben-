@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verben lernen</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2b59c3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Verben">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--tx:#1d1d1b;--mut:#77756e;--ac:#2b59c3;--ok:#2e8b57;--bad:#c2452d;--bd:#e3e0d8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151514;--card:#222220;--tx:#f0eee8;--mut:#9b988f;--ac:#7ea2f5;--ok:#5fc18a;--bad:#ee7b63;--bd:#33322e}}
+:root[data-theme="dark"]{--bg:#151514;--card:#222220;--tx:#f0eee8;--mut:#9b988f;--ac:#7ea2f5;--ok:#5fc18a;--bad:#ee7b63;--bd:#33322e}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,system-ui,"Helvetica Neue",sans-serif}
+*{box-sizing:border-box}
+main{max-width:520px;margin:0 auto;padding:16px 16px 90px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;padding:14px;border:0;background:none;color:var(--mut);font:600 15px inherit;font-family:inherit}
+nav button.on{color:var(--ac)}
+h1{font-size:22px;margin:4px 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chip{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.btn{display:block;width:100%;padding:15px;border:0;border-radius:14px;background:var(--ac);color:#fff;font:600 17px inherit;font-family:inherit}
+.btn.g{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;min-height:250px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;margin:14px 0}
+.big{font-size:34px;font-weight:700}
+.row3{font-size:22px;margin:6px 0}
+.row3 small{display:block;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.mut{color:var(--mut);font-size:14px}
+.two{display:flex;gap:10px}
+.two .btn.no{background:var(--bad)}.two .btn.yes{background:var(--ok)}
+.bar{height:6px;border-radius:3px;background:var(--bd);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.item input{width:20px;height:20px;flex:none}
+.item .t{flex:1;min-width:0;font-size:15px}
+.item .t b{font-weight:700}
+.tag{font-size:11px;color:var(--ac);border:1px solid var(--bd);border-radius:6px;padding:1px 6px;margin-left:6px}
+input[type=text]{width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:16px inherit;font-family:inherit;margin:0 0 8px}
+details{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin:0 0 14px}
+summary{font-weight:600}
+.act{display:flex;gap:8px;margin:0 0 12px}
+.act input{margin:0;flex:1}
+.act .btn{width:auto;padding:12px 14px;font-size:15px}
+.lrow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;width:100%;text-align:left;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:14px;padding:12px 14px;margin:0 0 8px;font:inherit;font-family:inherit}
+.lrow.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.lrow .pb{grid-column:1/3;height:5px;border-radius:3px;background:var(--bd);overflow:hidden;margin-top:6px}
+.lrow .pb b{display:block;height:100%;background:var(--ok)}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav><button id="t1" class="on">Вчити</button><button id="t2">Дієслова</button></nav>
+<script>
+const SEED=`sein|war|gewesen|ist|бути
+haben|hatte|gehabt|hat|мати
+werden|wurde|geworden|ist|ставати
+gehen|ging|gegangen|ist|йти
+kommen|kam|gekommen|ist|приходити
+sehen|sah|gesehen|hat|бачити
+geben|gab|gegeben|hat|давати
+nehmen|nahm|genommen|hat|брати
+essen|aß|gegessen|hat|їсти
+trinken|trank|getrunken|hat|пити
+sprechen|sprach|gesprochen|hat|говорити
+schreiben|schrieb|geschrieben|hat|писати
+lesen|las|gelesen|hat|читати
+finden|fand|gefunden|hat|знаходити
+bleiben|blieb|geblieben|ist|залишатися
+fahren|fuhr|gefahren|ist|їхати
+laufen|lief|gelaufen|ist|бігти, ходити
+schlafen|schlief|geschlafen|hat|спати
+helfen|half|geholfen|hat|допомагати
+wissen|wusste|gewusst|hat|знати
+denken|dachte|gedacht|hat|думати
+bringen|brachte|gebracht|hat|приносити
+kennen|kannte|gekannt|hat|бути знайомим
+stehen|stand|gestanden|hat|стояти
+sitzen|saß|gesessen|hat|сидіти
+liegen|lag|gelegen|hat|лежати
+beginnen|begann|begonnen|hat|починати
+halten|hielt|gehalten|hat|тримати
+heißen|hieß|geheißen|hat|називатися
+rufen|rief|gerufen|hat|кликати
+schneiden|schnitt|geschnitten|hat|різати
+schwimmen|schwamm|geschwommen|ist|плавати
+singen|sang|gesungen|hat|співати
+sterben|starb|gestorben|ist|помирати
+treffen|traf|getroffen|hat|зустрічати
+verstehen|verstand|verstanden|hat|розуміти
+vergessen|vergaß|vergessen|hat|забувати
+verlieren|verlor|verloren|hat|втрачати
+ziehen|zog|gezogen|hat|тягнути
+fliegen|flog|geflogen|ist|летіти
+fallen|fiel|gefallen|ist|падати
+gewinnen|gewann|gewonnen|hat|вигравати
+tragen|trug|getragen|hat|нести, носити
+waschen|wusch|gewaschen|hat|мити
+bieten|bot|geboten|hat|пропонувати
+bitten|bat|gebeten|hat|просити
+entscheiden|entschied|entschieden|hat|вирішувати
+gefallen|gefiel|gefallen|hat|подобатися
+lassen|ließ|gelassen|hat|дозволяти, залишати
+nennen|nannte|genannt|hat|називати
+rennen|rannte|gerannt|ist|бігти
+steigen|stieg|gestiegen|ist|підніматися
+werfen|warf|geworfen|hat|кидати
+wachsen|wuchs|gewachsen|ist|рости
+tun|tat|getan|hat|робити
+schließen|schloss|geschlossen|hat|зачиняти
+verbringen|verbrachte|verbracht|hat|проводити (час)
+einladen|lud ein|eingeladen|hat|запрошувати
+anfangen|fing an|angefangen|hat|починати
+aufstehen|stand auf|aufgestanden|ist|вставати
+mitnehmen|nahm mit|mitgenommen|hat|брати з собою
+anrufen|rief an|angerufen|hat|телефонувати
+ankommen|kam an|angekommen|ist|прибувати
+backen|backte|gebacken|hat|пекти
+befehlen|befahl|befohlen|hat|наказувати
+beißen|biss|gebissen|hat|кусати
+betrügen|betrog|betrogen|hat|обманювати
+biegen|bog|gebogen|hat|гнути
+binden|band|gebunden|hat|в'язати
+blasen|blies|geblasen|hat|дути
+braten|briet|gebraten|hat|смажити
+brechen|brach|gebrochen|hat|ламати
+brennen|brannte|gebrannt|hat|горіти
+dürfen|durfte|gedurft|hat|мати дозвіл
+empfehlen|empfahl|empfohlen|hat|радити, рекомендувати
+erschrecken|erschrak|erschrocken|ist|злякатися
+erfinden|erfand|erfunden|hat|винаходити
+erhalten|erhielt|erhalten|hat|отримувати
+erkennen|erkannte|erkannt|hat|впізнавати
+ertrinken|ertrank|ertrunken|ist|потонути
+fangen|fing|gefangen|hat|ловити
+fliehen|floh|geflohen|ist|тікати
+fließen|floss|geflossen|ist|текти
+fressen|fraß|gefressen|hat|жерти
+frieren|fror|gefroren|hat|мерзнути
+gelingen|gelang|gelungen|ist|вдаватися
+gelten|galt|gegolten|hat|діяти, вважатися
+genießen|genoss|genossen|hat|насолоджуватися
+geschehen|geschah|geschehen|ist|траплятися
+graben|grub|gegraben|hat|копати
+greifen|griff|gegriffen|hat|хапати
+hängen|hing|gehangen|hat|висіти
+heben|hob|gehoben|hat|піднімати
+klingen|klang|geklungen|hat|звучати
+können|konnte|gekonnt|hat|могти, вміти
+kriechen|kroch|gekrochen|ist|повзти
+leiden|litt|gelitten|hat|страждати
+leihen|lieh|geliehen|hat|позичати
+lügen|log|gelogen|hat|брехати
+meiden|mied|gemieden|hat|уникати
+messen|maß|gemessen|hat|міряти
+mögen|mochte|gemocht|hat|любити, подобатися
+müssen|musste|gemusst|hat|мусити
+raten|riet|geraten|hat|радити, вгадувати
+reißen|riss|gerissen|hat|рвати
+reiten|ritt|geritten|ist|їздити верхи
+riechen|roch|gerochen|hat|пахнути, нюхати
+scheinen|schien|geschienen|hat|світити, здаватися
+schieben|schob|geschoben|hat|штовхати
+schießen|schoss|geschossen|hat|стріляти
+schlagen|schlug|geschlagen|hat|бити
+schmelzen|schmolz|geschmolzen|ist|танути
+schreien|schrie|geschrien|hat|кричати
+schweigen|schwieg|geschwiegen|hat|мовчати
+sinken|sank|gesunken|ist|тонути, знижуватися
+sollen|sollte|gesollt|hat|мати (повинен)
+springen|sprang|gesprungen|ist|стрибати
+stechen|stach|gestochen|hat|колоти
+stehlen|stahl|gestohlen|hat|красти
+stoßen|stieß|gestoßen|hat|штовхати, вдаряти
+streichen|strich|gestrichen|hat|фарбувати, викреслювати
+streiten|stritt|gestritten|hat|сперечатися
+treiben|trieb|getrieben|hat|займатися (спортом), гнати
+treten|trat|getreten|ist|ступати
+unterscheiden|unterschied|unterschieden|hat|розрізняти
+verbieten|verbot|verboten|hat|забороняти
+verbinden|verband|verbunden|hat|з'єднувати
+vergleichen|verglich|verglichen|hat|порівнювати
+verlassen|verließ|verlassen|hat|покидати
+vermeiden|vermied|vermieden|hat|уникати
+verschwinden|verschwand|verschwunden|ist|зникати
+verzeihen|verzieh|verziehen|hat|пробачати
+werben|warb|geworben|hat|рекламувати
+wiegen|wog|gewogen|hat|важити
+wollen|wollte|gewollt|hat|хотіти
+zwingen|zwang|gezwungen|hat|змушувати
+abnehmen|nahm ab|abgenommen|hat|худнути, знімати
+annehmen|nahm an|angenommen|hat|приймати, припускати
+aufgeben|gab auf|aufgegeben|hat|здаватися, кидати
+ausgehen|ging aus|ausgegangen|ist|виходити (гуляти)
+aussehen|sah aus|ausgesehen|hat|виглядати
+aussteigen|stieg aus|ausgestiegen|ist|виходити (з транспорту)
+einsteigen|stieg ein|eingestiegen|ist|сідати (в транспорт)
+umsteigen|stieg um|umgestiegen|ist|пересідати
+ausgeben|gab aus|ausgegeben|hat|витрачати (гроші)
+bestehen|bestand|bestanden|hat|складати (іспит), існувати
+beraten|beriet|beraten|hat|консультувати
+beschreiben|beschrieb|beschrieben|hat|описувати
+besitzen|besaß|besessen|hat|володіти
+beweisen|bewies|bewiesen|hat|доводити
+bekommen|bekam|bekommen|hat|отримувати
+behalten|behielt|behalten|hat|залишати собі
+beitragen|trug bei|beigetragen|hat|сприяти
+eingreifen|griff ein|eingegriffen|hat|втручатися
+einschlafen|schlief ein|eingeschlafen|ist|засинати
+entstehen|entstand|entstanden|ist|виникати
+entlassen|entließ|entlassen|hat|звільняти
+erfahren|erfuhr|erfahren|hat|дізнаватися
+ergeben|ergab|ergeben|hat|давати результат
+erscheinen|erschien|erschienen|ist|з'являтися
+erziehen|erzog|erzogen|hat|виховувати
+festhalten|hielt fest|festgehalten|hat|тримати, фіксувати
+fernsehen|sah fern|ferngesehen|hat|дивитися телевізор
+hinweisen|wies hin|hingewiesen|hat|вказувати на
+mitbringen|brachte mit|mitgebracht|hat|приносити з собою
+mitkommen|kam mit|mitgekommen|ist|йти разом
+nachdenken|dachte nach|nachgedacht|hat|міркувати
+stattfinden|fand statt|stattgefunden|hat|відбуватися
+teilnehmen|nahm teil|teilgenommen|hat|брати участь
+übernehmen|übernahm|übernommen|hat|брати на себе
+überweisen|überwies|überwiesen|hat|переказувати (гроші)
+unternehmen|unternahm|unternommen|hat|вживати заходів, робити щось
+unterbrechen|unterbrach|unterbrochen|hat|перебивати
+unterhalten|unterhielt|unterhalten|hat|розважати (sich: розмовляти)
+unterschreiben|unterschrieb|unterschrieben|hat|підписувати
+vergeben|vergab|vergeben|hat|надавати, пробачати
+verhalten|verhielt|verhalten|hat|поводитися (sich)
+verraten|verriet|verraten|hat|видавати (таємницю)
+vertreten|vertrat|vertreten|hat|представляти, заміщати
+verweisen|verwies|verwiesen|hat|посилатися, відсилати
+vorhaben|hatte vor|vorgehabt|hat|планувати
+vorkommen|kam vor|vorgekommen|ist|траплятися
+vorschlagen|schlug vor|vorgeschlagen|hat|пропонувати
+vorziehen|zog vor|vorgezogen|hat|віддавати перевагу
+weggehen|ging weg|weggegangen|ist|йти геть
+wegnehmen|nahm weg|weggenommen|hat|забирати
+zunehmen|nahm zu|zugenommen|hat|збільшуватися, поправлятися
+zurückkommen|kam zurück|zurückgekommen|ist|повертатися
+zurückgehen|ging zurück|zurückgegangen|ist|йти назад, зменшуватися
+zugeben|gab zu|zugegeben|hat|визнавати
+zurechtkommen|kam zurecht|zurechtgekommen|ist|справлятися
+auffallen|fiel auf|aufgefallen|ist|впадати в око
+ausfallen|fiel aus|ausgefallen|ist|скасовуватися
+ausschließen|schloss aus|ausgeschlossen|hat|виключати
+einfallen|fiel ein|eingefallen|ist|спадати на думку
+eintreten|trat ein|eingetreten|ist|вступати, наставати
+abbrechen|brach ab|abgebrochen|hat|перервати
+ausbrechen|brach aus|ausgebrochen|ist|спалахнути
+durchfallen|fiel durch|durchgefallen|ist|провалитися (на іспиті)
+anbieten|bot an|angeboten|hat|пропонувати
+anziehen|zog an|angezogen|hat|одягати
+ausziehen|zog aus|ausgezogen|hat|роздягати; виїжджати
+einziehen|zog ein|eingezogen|ist|в'їжджати
+umziehen|zog um|umgezogen|ist|переїжджати
+aufschreiben|schrieb auf|aufgeschrieben|hat|записувати
+abschreiben|schrieb ab|abgeschrieben|hat|списувати
+abfahren|fuhr ab|abgefahren|ist|відправлятися
+mitfahren|fuhr mit|mitgefahren|ist|їхати разом
+aufhalten|hielt auf|aufgehalten|hat|затримувати
+verschieben|verschob|verschoben|hat|переносити (строк)
+vorlesen|las vor|vorgelesen|hat|читати вголос
+beibringen|brachte bei|beigebracht|hat|навчати
+abschließen|schloss ab|abgeschlossen|hat|завершувати, замикати
+anschließen|schloss an|angeschlossen|hat|підключати
+gießen|goss|gegossen|hat|поливати, лити
+pfeifen|pfiff|gepfiffen|hat|свистіти
+schwören|schwor|geschworen|hat|присягати
+stinken|stank|gestunken|hat|смердіти
+verderben|verdarb|verdorben|ist|псуватися
+weisen|wies|gewiesen|hat|показувати
+sich befinden|befand|befunden|hat|перебувати
+ausschlafen|schlief aus|ausgeschlafen|hat|виспатися
+vorbeikommen|kam vorbei|vorbeigekommen|ist|заходити
+losgehen|ging los|losgegangen|ist|вирушати, починатися`;
+const KEY='verben-v1';
+let V=[];
+try{V=JSON.parse(localStorage.getItem(KEY)||'null')||[]}catch(e){V=[]}
+const seedList=SEED.split('\n').map((l,i)=>{const p=l.split('|');return{id:i+1,inf:p[0],pr:p[1],pp:p[2],aux:p[3],uk:p[4],lesson:'',ok:0}});
+let sv=0;try{sv=+localStorage.getItem('verben-ver')||0}catch(e){}
+if(!V.length){V=seedList}
+else if(sv<2){const have=new Set(V.map(v=>v.inf));seedList.forEach(x=>{if(!have.has(x.inf))V.push(x)})}
+try{localStorage.setItem('verben-ver','2')}catch(e){}
+save();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(V))}catch(e){}}
+function saveSess(){try{localStorage.setItem('verben-sess',JSON.stringify({sf,q:q.map(v=>v.id),total,ft:firstTry}))}catch(e){}}
+function clearSess(){try{localStorage.removeItem('verben-sess')}catch(e){}}
+function loadSess(){try{const x=JSON.parse(localStorage.getItem('verben-sess')||'null');if(x&&x.q){x.q=x.q.filter(id=>V.some(v=>v.id===id))}return x}catch(e){return null}}
+function prog(f){const L=V.filter(v=>inF(v,f));return{n:L.length,d:L.filter(v=>(v.ok||0)>=3).length}}
+function lessonList(){
+  const all=[['all','Всі'],...lessons().map(l=>[l,l]),['none','Без уроку']];
+  return all.map(([k,n])=>{const p=prog(k);if(!p.n)return '';
+    return `<button class="lrow ${sf===k?'on':''}" data-a="sf" data-k="${esc(k)}"><span>${esc(n)}</span><span class="mut">${p.d}/${p.n} вивчено</span><i class="pb"><b style="width:${p.d/p.n*100}%"></b></i></button>`}).join('');
+}
+let tab='study',sf='all',lf='all',sel=new Set(),q=[],total=0,flip=false,session=false,firstTry={};
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const lessons=()=>[...new Set(V.map(v=>v.lesson).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'uk',{numeric:true}));
+const inF=(v,f)=>f==='all'||(f==='none'?!v.lesson:v.lesson===f);
+function chips(cur,prefix){
+  const L=lessons();
+  const all=[['all','Всі'],...L.map(l=>[l,l]),['none','Без уроку']];
+  return '<div class="chips">'+all.map(([k,n])=>`<button class="chip ${cur===k?'on':''}" data-a="${prefix}" data-k="${esc(k)}">${esc(n)}</button>`).join('')+'</div>';
+}
+function render(){
+  $('#t1').className=tab==='study'?'on':'';$('#t2').className=tab==='lib'?'on':'';
+  app.innerHTML=tab==='study'?study():lib();
+}
+function study(){
+  if(!session){
+    const n=V.filter(v=>inF(v,sf)).length;
+    const ss=loadSess(),rs=ss&&ss.q.length?`<button class="btn" data-a="resume" style="margin-bottom:14px">Продовжити (залишилось ${ss.q.length})</button>`:'';
+    return `<h1>Які дієслова вчимо?</h1>${rs}${lessonList()}<p class="mut">Обрано дієслів: ${n}</p>
+    <button class="btn" data-a="start" ${n?'':'disabled'}>Почати</button>
+    <p class="mut">Інфінітив → Präteritum → Partizip II. Що не знаєш, повертається в колоду, доки не вивчиш.</p>`;
+  }
+  if(!q.length){
+    return `<h1>Готово! 🎉</h1><div class="card"><div class="big">${total}/${total}</div><p class="mut">Усі дієслова пройдено</p></div>
+    <button class="btn" data-a="start">Ще раз</button><br><button class="btn g" data-a="menu">Обрати інший урок</button>`;
+  }
+  const v=q[0],done=total-q.length;
+  const face=flip
+   ?`<div class="big" style="font-size:24px">${esc(v.inf)}</div>
+     <div class="row3"><small>Präteritum</small>${esc(v.pr)}</div>
+     <div class="row3"><small>Partizip II</small>${esc(v.aux)} ${esc(v.pp)}</div>
+     <div class="mut">${esc(v.uk)}</div>`
+   :`<div class="big">${esc(v.inf)}</div><p class="mut">${esc(v.uk)}</p><p class="mut">торкнись, щоб побачити форми</p>`;
+  return `<div class="bar"><i style="width:${done/total*100}%"></i></div><p class="mut">Залишилось: ${q.length}</p>
+   <div class="card" data-a="flip">${face}</div>
+   ${flip?`<div class="two"><button class="btn no" data-a="no">Не знаю</button><button class="btn yes" data-a="yes">Знаю</button></div>`:''}
+   <button class="btn g" style="margin-top:14px" data-a="menu">Завершити</button>`;
+}
+function lib(){
+  const L=V.filter(v=>inF(v,lf));
+  return `<h1>Дієслова (${V.length})</h1>
+  <details><summary>+ Додати своє дієслово</summary><div style="margin-top:10px">
+   <input type="text" id="n_inf" placeholder="Infinitiv (напр. gehen)" autocapitalize="off">
+   <input type="text" id="n_pr" placeholder="Präteritum (ging)" autocapitalize="off">
+   <input type="text" id="n_pp" placeholder="Partizip II (gegangen)" autocapitalize="off">
+   <input type="text" id="n_aux" placeholder="hat / ist" autocapitalize="off">
+   <input type="text" id="n_uk" placeholder="Переклад">
+   <input type="text" id="n_l" placeholder="Урок (необов'язково)">
+   <button class="btn" data-a="add">Додати</button></div></details>
+  ${chips(lf,'lf')}${lf!=='all'?(()=>{const p=prog(lf);return `<p class="mut">Вивчено ${p.d} з ${p.n} · ✅ вивчено · 🔸 в процесі · ○ нове</p>`})():`<p class="mut">✅ вивчено · 🔸 в процесі · ○ нове</p>`}
+  <div class="act"><input type="text" id="lname" placeholder="Назва уроку, напр. Урок 5"><button class="btn" data-a="assign">Призначити</button></div>
+  <div class="act"><button class="btn g" data-a="selall">Вибрати всі</button><button class="btn g" data-a="del">Видалити</button></div>
+  <div class="act"><button class="btn g" data-a="restore">Restore: повернути видалені слова</button></div>
+  <div class="act"><button class="btn g" data-a="exp">Копіювати прогрес</button><button class="btn g" data-a="imp">Вставити прогрес</button></div>
+  <input type="text" id="bk" placeholder="Тут з'явиться (або сюди вставити) збережений прогрес">
+  ${L.map(v=>`<label class="item"><input type="checkbox" data-id="${v.id}" ${sel.has(v.id)?'checked':''}>
+   <span class="t"><b>${esc(v.inf)}</b> · ${esc(v.pr)} · ${esc(v.aux)} ${esc(v.pp)}${v.lesson?`<span class="tag">${esc(v.lesson)}</span>`:''}${v.ok>=3?' ✅':v.ok>0?' 🔸':' ○'}<br><span class="mut">${esc(v.uk)}</span></span></label>`).join('')}`;
+}
+function start(){
+  q=V.filter(v=>inF(v,sf)).map(v=>v.id);
+  for(let i=q.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[q[i],q[j]]=[q[j],q[i]]}
+  q=q.map(id=>V.find(v=>v.id===id));total=q.length;flip=false;session=true;firstTry={};saveSess();
+}
+app.addEventListener('change',e=>{
+  if(e.target.dataset.id){const id=+e.target.dataset.id;e.target.checked?sel.add(id):sel.delete(id)}
+});
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const a=b.dataset.a,k=b.dataset.k;
+  if(a==='sf'){sf=k}
+  else if(a==='lf'){lf=k;sel.clear()}
+  else if(a==='start'){start()}
+  else if(a==='menu'){session=false}
+  else if(a==='flip'){flip=!flip}
+  else if(a==='yes'||a==='no'){
+    const v=q.shift();
+    if(a==='yes'){ if(!(v.id in firstTry)){v.ok=(v.ok||0)+1} firstTry[v.id]=1; }
+    else{ if(!(v.id in firstTry)){v.ok=0;firstTry[v.id]=0} q.splice(Math.min(3,q.length),0,v); }
+    flip=false;save();if(q.length)saveSess();else clearSess();
+  }
+  else if(a==='exp'){const t=JSON.stringify(V),i=$('#bk');i.value=t;i.select();try{navigator.clipboard.writeText(t)}catch(e){}return}
+  else if(a==='imp'){try{const arr=JSON.parse($('#bk').value);if(Array.isArray(arr)&&arr.length&&arr[0].inf){V=arr;save()}}catch(e){}}
+  else if(a==='restore'){const have=new Set(V.map(v=>v.inf));seedList.forEach(x=>{if(!have.has(x.inf))V.push({...x})});save()}
+  else if(a==='resume'){const ss=loadSess();if(ss&&ss.q.length){sf=ss.sf||'all';q=ss.q.map(id=>V.find(v=>v.id===id));total=ss.total||q.length;firstTry=ss.ft||{};flip=false;session=true}}
+  else if(a==='selall'){const L=V.filter(v=>inF(v,lf));const all=L.every(v=>sel.has(v.id));L.forEach(v=>all?sel.delete(v.id):sel.add(v.id))}
+  else if(a==='assign'){
+    const n=$('#lname').value.trim();
+    if(!n||!sel.size)return;
+    V.forEach(v=>{if(sel.has(v.id))v.lesson=n});sel.clear();save();
+  }
+  else if(a==='del'){
+    if(!sel.size)return;
+    V=V.filter(v=>!sel.has(v.id));sel.clear();save();
+  }
+  else if(a==='add'){
+    const g=id=>$('#'+id).value.trim();
+    if(!g('n_inf')||!g('n_pr')||!g('n_pp'))return;
+    V.push({id:Date.now(),inf:g('n_inf'),pr:g('n_pr'),pp:g('n_pp'),aux:g('n_aux')||'hat',uk:g('n_uk'),lesson:g('n_l'),ok:0});save();
+  }
+  render();
+});
+$('#t1').onclick=()=>{tab='study';render()};
+$('#t2').onclick=()=>{tab='lib';render()};
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+</script>
+</body>
+</html>
